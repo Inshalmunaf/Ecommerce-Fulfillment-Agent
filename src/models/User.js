@@ -57,7 +57,11 @@ userSchema.pre('save', async function (next) {
     }
   });
   
-
+// it is used to compare plain text password with hashed ones
+  userSchema.methods.matchPassword = async function (enteredPassword) {
+    // 'this.password' refers to the hashed password in this user document
+    return await bcrypt.compare(enteredPassword, this.password);
+  };
 
 //Creating a model for User
 const User = mongoose.model('User' , userSchema)
